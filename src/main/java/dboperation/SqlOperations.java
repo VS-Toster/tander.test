@@ -45,6 +45,7 @@ public class SqlOperations {
         try {
             String query = "INSERT INTO " + tableName + " VALUES ( " + value + " )";
             statement.executeUpdate(query);
+            connection.commit();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

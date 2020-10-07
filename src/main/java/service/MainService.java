@@ -24,7 +24,7 @@ public class MainService {
             BufferedWriter out = new BufferedWriter(new FileWriter(file));
             out.write(xml);
             out.close();
-        } catch (SQLException | IOException throwables) {
+        } catch (Exception throwables) {
             throwables.printStackTrace();
         }
     }
