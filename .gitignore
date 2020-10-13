@@ -1,6 +1,6 @@
 .gradle
 build
-.idea
+/.idea/
 */out
 target
 */target
@@ -8,8 +8,3 @@ target
 *.iws
 *.ipr
 out/
-
-application-dev.yml
-application-test.yml
-logback-dev.xml
-logs

@@ -45,14 +45,14 @@ public class SqlOperations {
         try {
             String query = "INSERT INTO " + tableName + " VALUES ( " + value + " )";
             statement.executeUpdate(query);
-            connection.commit();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
+
     public List<Long> getData(String tableName) {
         try {
-            String query = "SELECT * from " +  tableName;
+            String query = "SELECT * from " + tableName;
             ResultSet rs = statement.executeQuery(query);
             List<Long> list = new ArrayList<>();
             while (rs.next()) {
@@ -63,6 +63,14 @@ public class SqlOperations {
         } catch (SQLException ex) {
             ex.printStackTrace();
             return null;
+        }
+    }
+
+    public void commitData() {
+        try {
+            connection.commit();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }
