@@ -6,7 +6,6 @@ import model.Entry;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -21,9 +20,11 @@ public class MainService {
             }
             for (long i = 1; i <= n; i++) {
                 sqlOperations.insertData("test", i);
+                if (i % 100000 == 0) {
+                    sqlOperations.commitData();
+                    System.out.println(i);
+                }
             }
-            sqlOperations.commitData();
-
             String xml = xmlService.createStringXml(sqlOperations.getData("test"));
             File file1 = new File("1.xml");
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file1));
