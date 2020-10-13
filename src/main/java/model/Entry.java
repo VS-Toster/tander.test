@@ -2,9 +2,9 @@ package model;
 
 public class Entry {
 
-    private Long field;
+    private final Long field;
 
-    public void setField(Long field) {
+    public Entry(Long field) {
         this.field = field;
     }
 

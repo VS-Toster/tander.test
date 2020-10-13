@@ -1,23 +1,21 @@
 package service;
 
 import dboperation.SqlOperations;
+import model.Entry;
 
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainService {
+
     public void start(long n) {
         try {
             SqlOperations sqlOperations = new SqlOperations();
             XmlService xmlService = new XmlService();
-            FileResources xsltConverter = new FileResources();
             if (sqlOperations.existingData("test")) {
                 sqlOperations.truncateTable("test");
             }
@@ -25,23 +23,29 @@ public class MainService {
                 sqlOperations.insertData("test", i);
             }
             String xml = xmlService.createStringXml(sqlOperations.getData("test"));
-            File file = new File("1.xml");
-            BufferedWriter outXml = new BufferedWriter(new FileWriter(file));
-            outXml.write(xml);
-            outXml.close();
+            File file1 = new File("1.xml");
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file1));
+            bufferedWriter.write(xml);
+            bufferedWriter.close();
 
-            TransformerFactory factory = TransformerFactory.newInstance();
-            Source xslt = new StreamSource(new File("template.xsl"));
-            Transformer transformer = factory.newTransformer(xslt);
-            Source xls = new StreamSource(new File("1.xml"));
-            transformer.transform(xls, new StreamResult(new File("2.xml")));
-            BufferedWriter outXls = new BufferedWriter(new FileWriter(file));
-            outXls.write(xml);
-            outXls.close();
+            File file2 = new File("2.xml");
+            xmlService.transformXML(file1, file2);
 
+            XMLHandler xmlHandler = new XMLHandler();
+            xmlService.parseXML(file2, xmlHandler);
+
+            averageSum(xmlHandler.getEntryList());
 
         } catch (Exception throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    private void averageSum(List<Entry> entryList) {
+        double result = 0;
+        for (Entry entry : entryList) {
+            result += entry.getField();
+        }
+        System.out.println("Average sum is " + result / entryList.size());
     }
 }
